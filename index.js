@@ -60,6 +60,26 @@ function setDiscordText(html) {
     chatBlock.scrollTop(newScrollTop);
 }
 
+/**
+ * Updates status overlay without wiping chat.
+ * @param {string} html 
+ */
+function setStatus(html) {
+    if (discordContent && discordContent.children().length > 0) {
+        discordContent.find('.discord_status_overlay').remove();
+        const overlay = $(`<div class="discord_status_overlay">${html}</div>`);
+        discordContent.append(overlay);
+
+        const chatBlock = $('#chat');
+        if (chatBlock.length) {
+            const newScrollTop = chatBlock[0].scrollHeight - chatBlock.outerHeight();
+            chatBlock.scrollTop(newScrollTop);
+        }
+    } else {
+        setDiscordText(`<div class="discord_status_container"><div class="discord_status_msg">${html}</div></div>`);
+    }
+}
+
 function applyFontSize(size) {
     let styleEl = $('#discord_font_size_style');
     if (styleEl.length === 0) {
@@ -230,25 +250,20 @@ async function generateDiscordChat() {
     const lastMessage = chat[chat.length - 1];
     console.log(`[EchoChamber] Last message by: ${lastMessage.name}, is_user: ${lastMessage.is_user}`);
 
+
+
     if (lastMessage.is_user) {
-        setDiscordText(`
-            <div class="discord_status_container">
-                <div class="discord_status_msg"><i class="fa-solid fa-keyboard"></i> Target is typing...</div>
-            </div>
-        `);
+        // Typing indicator with text
+        setStatus('<i class="fa-solid fa-keyboard fa-fade"></i> Target is typing...');
         return;
     }
 
-    // Improved Processing UI
-    setDiscordText(`
-        <div class="discord_status_container">
-            <div class="discord_status_msg">
-                <i class="fa-solid fa-circle-notch fa-spin"></i> EchoChamber is processing...
-            </div>
-            <button id="discord_stop_btn">
-                <i class="fa-solid fa-stop"></i> Cancel Generation
-            </button>
-        </div>
+    // Processing UI
+    setStatus(`
+        <i class="fa-solid fa-circle-notch fa-spin"></i> EchoChamber is processing...
+        <button id="discord_stop_btn" style="margin-left: 10px;">
+            <i class="fa-solid fa-stop"></i> Cancel
+        </button>
     `);
 
     // Bind stop button
@@ -269,7 +284,13 @@ async function generateDiscordChat() {
     const cleanMessage = (text) => {
         if (!text) return '';
         // Strip common reasoning/thinking tags used by models like Claude and DeepSeek
-        return text.replace(/<(thought|think|reasoning)>[\s\S]*?<\/\1>/gi, '').trim();
+        let cleaned = text.replace(/<(thought|think|reasoning)>[\s\S]*?<\/\1>/gi, '').trim();
+        // Strip HTML tags to prevent AI commenting on divs/tables
+        cleaned = cleaned.replace(/<[^>]*>/g, '');
+        // Decode HTML entities to standard text
+        const txt = document.createElement("textarea");
+        txt.innerHTML = cleaned;
+        return txt.value;
     };
 
     const history = chat.slice(-3).map(msg => `${msg.name}: ${cleanMessage(msg.mes)}`).join('\n');
@@ -1267,6 +1288,6 @@ jQuery(async () => {
     eventSource.on(event_types.MESSAGE_RECEIVED, () => onChatEvent(false));
 
     eventSource.on(event_types.MESSAGE_SENT, () => {
-        setDiscordText('<div class="discord_status">Target is typing...</div>');
+        setStatus('<i class="fa-solid fa-keyboard fa-fade"></i> Target is typing...');
     });
 });
