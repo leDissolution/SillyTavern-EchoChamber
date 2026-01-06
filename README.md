@@ -20,8 +20,8 @@
 ## ✨ Feature Highlights
 
 * **Dynamic Chat Styles:** 10+ built-in styles including Discord/Twitch Chat, Twitter/X, MST3K, Breaking News, NSFW avatars, and more.
-* **Flexible Backend:** Works with **Cloud/Chat Completion APIs** or **Local Models** (Ollama, KoboldCPP, LM Studio, vLLM).
-* **Quick Controls:** Adjust user count and switch styles instantly with the Quick Settings bar under the chat.
+* **Flexible Backend:** Works with **built-in Connection Profiles**, **Cloud/Chat Completion APIs** and **Local Models** (Ollama, KoboldCPP, LM Studio, vLLM).
+* **Quick Controls:** Adjust user count, switch chat styles, adjust font size, resize chat panel instantly with the Quick Settings bar under the chat.
 * **Theme Aware:** Inherits your SillyTavern colors for a native look.
 * **Full Markdown:** Supports **bold**, *italics*, <u>underline</u>, and `code` in the feed.
 
@@ -109,13 +109,13 @@ Don't just read about it—see how EchoChamber reacts to your plots. Click on th
 ## ⚙️ Configuration
 
 ### 1. Engine Setup
-EchoChamber can either use your Chat Compeletion API that you're connected to, or run separately from your main chat model.
+EchoChamber can use built-in Connection Profiles, Chat Compeletion API that you're currently connected to, or run separately from your main chat model.
 * **Ollama:** Automatically detects models running locally.
 * **OpenAI Compatible:** Connects to **KoboldCPP**, **LM Studio**, **vLLM**, etc.
     * *Tip:* Use **Instruct** or **Thinking** models. **Instruct** models are better for EchoChamber.
 
 ### 2. Customization
-* **Quick Bar:** A toggle bar appears below your chat to quickly swap styles, toggle EchoChamber on/off, refresh the chat, and adjust user counts.
+* **Quick Bar:** A toggle bar appears below your chat to quickly swap styles, toggle EchoChamber on/off, refresh the chat, adjust font size and user counts.
 * **Chat Style Manager:** Create your own styles by editing the Markdown files in the `/chat-styles/` folder.
     * **Import:** Easily share or import `.md` style files.
     * **Edit:** You can tweak prompts to change the "vibe" (e.g., make the Twitter crowd meaner, or make Ava less explicit).
@@ -212,3 +212,4 @@ If you like the custom theme colors used in the screenshots, you can apply them 
 The reactions in the examples above are based on this custom story I created. Use the card below to test the extension's behavior.
 
 <table> <tr> <td width="35%" valign="top"> <img src="https://github.com/user-attachments/assets/beee7c3e-b40b-4f2d-a857-79329ab7038b" width="100%" alt="Real Talk Podcast Card" /> <p align="center"><sub><em>Right-click & Save image to import</em></sub></p> </td> <td width="65%" valign="top"> <strong>The Story:</strong> <blockquote> Victoria Cross, 38, built her podcast empire dissecting male mediocrity and modern dating's failures—until Daniel, 18, calls in and systematically dismantles her worldview on air. Their explosive debates accidentally spark the "New Pond Movement," urging older women to pursue younger men and leave the "stagnant pond" behind. As Daniel becomes a fixture on her show, the intellectual warfare between them ignites something far more dangerous than either anticipated. </blockquote> <p><strong>Import Options:</strong></p> <ul> <li> Character Card includes World Info & Lorebook Entries. </li> <li> Either download the image to the left and import. </li> <li> *OR* <a href="https://gist.githubusercontent.com/mattjaybe/8856eecdb2ada535095cbc35e107a4dc/raw/6490ea9f134a1c71272f0014fec31bc068d62469/realtalk-charactercard.json">Copy or Download the character card .json</a></li> </ul> </td> </tr> </table>
+
