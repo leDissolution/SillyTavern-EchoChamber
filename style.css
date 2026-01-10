@@ -60,10 +60,10 @@
 /* Position: LEFT - Fixed on left side */
 #discordBar.ec_left {
     position: fixed;
-    top: 0;
+    top: 50px;
     bottom: 0;
     left: 0;
-    height: 100vh !important;
+    height: calc(100vh - 50px) !important;
     min-width: 200px;
     border-right: 1px solid var(--ec-border);
     border-radius: 0;
@@ -74,10 +74,10 @@
 /* Position: RIGHT - Fixed on right side */
 #discordBar.ec_right {
     position: fixed;
-    top: 0;
+    top: 50px;
     bottom: 0;
     right: 0;
-    height: 100vh !important;
+    height: calc(100vh - 50px) !important;
     min-width: 200px;
     border-left: 1px solid var(--ec-border);
     border-radius: 0;
@@ -1233,9 +1233,72 @@
     padding: 0 8px !important;
 }
 
-/* Side panels collapsed */
+/* ========================================= */
+/* SIDE PANELS COLLAPSED - VERTICAL BAR      */
+/* ========================================= */
+
+/* Common styles for both collapsed side panels */
+#discordBar.ec_left.ec_collapsed,
+#discordBar.ec_right.ec_collapsed {
+    position: fixed !important;
+    top: 50px !important;
+    bottom: 0 !important;
+    width: 36px !important;
+    min-width: 36px !important;
+    max-width: 36px !important;
+    height: calc(100vh - 50px) !important;
+    padding: 0 !important;
+    flex-direction: column !important;
+    border-radius: 0 !important;
+    z-index: 2005 !important;
+}
+
+/* LEFT panel collapsed - dock to LEFT edge */
+#discordBar.ec_left.ec_collapsed {
+    left: 0 !important;
+    right: auto !important;
+    border-left: none !important;
+    border-right: 1px solid var(--ec-border) !important;
+}
+
+/* RIGHT panel collapsed - dock to RIGHT edge */
+#discordBar.ec_right.ec_collapsed {
+    left: auto !important;
+    right: 0 !important;
+    border-right: none !important;
+    border-left: 1px solid var(--ec-border) !important;
+}
+
+/* Header becomes vertical column at top of the slim bar */
 #discordBar.ec_left.ec_collapsed #discordQuickSettings,
 #discordBar.ec_right.ec_collapsed #discordQuickSettings {
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    flex-direction: column !important;
+    padding: 6px 4px !important;
+    border-bottom: none !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 4px !important;
+}
+
+/* In collapsed side panels, only show the toggle button */
+#discordBar.ec_left.ec_collapsed .ec_header_left,
+#discordBar.ec_right.ec_collapsed .ec_header_left {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+#discordBar.ec_left.ec_collapsed .ec_header_right,
+#discordBar.ec_right.ec_collapsed .ec_header_right {
+    display: none !important;
+}
+
+/* Make toggle button slightly larger for touch on collapsed state */
+#discordBar.ec_left.ec_collapsed .ec_toggle_btn,
+#discordBar.ec_right.ec_collapsed .ec_toggle_btn {
+    width: 28px !important;
     height: 28px !important;
-    min-height: 28px !important;
 }
