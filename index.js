@@ -326,7 +326,7 @@ Do NOT output preamble like "Here are the messages". Just output the content dir
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         model: modelToUse,
-                        system: sys,
+                        system: stylePrompt,
                         prompt: truePrompt,
                         stream: false,
                         options: { num_ctx: 2048, num_predict: 512, stop: ["</discordchat>"] }
@@ -359,7 +359,7 @@ Do NOT output preamble like "Here are the messages". Just output the content dir
                 // Default ST generation using context
                 const { generateRaw } = context;
                 if (generateRaw) {
-                    result = await generateRaw({ systemPrompt: sys, prompt: truePrompt, streaming: false });
+                    result = await generateRaw({ systemPrompt: stylePrompt, prompt: truePrompt, streaming: false });
                 } else {
                     throw new Error('generateRaw not available in context');
                 }
