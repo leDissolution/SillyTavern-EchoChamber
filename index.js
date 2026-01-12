@@ -473,7 +473,7 @@ STRICTLY follow the format defined in the instruction. ${isNarratorStyle ? '' : 
                         system: systemMessage,
                         prompt: truePrompt,
                         stream: false,
-                        options: { num_ctx: 2048, num_predict: 4096, stop: ["</discordchat>"] }
+                        options: { num_ctx: 8192, num_predict: 4096, stop: ["</discordchat>"] }
                     }),
                     signal: abortController.signal
                 });
@@ -506,7 +506,7 @@ STRICTLY follow the format defined in the instruction. ${isNarratorStyle ? '' : 
                 // Default ST generation using context
                 const { generateRaw } = context;
                 if (generateRaw) {
-                    result = await generateRaw({ systemPrompt: systemMessage, prompt: truePrompt, streaming: false });
+                    result = await generateRaw({ systemPrompt: systemMessage, prompt: truePrompt, streaming: false, max_length: 4096, max_tokens: 4096 });
                 } else {
                     throw new Error('generateRaw not available in context');
                 }
