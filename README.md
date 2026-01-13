@@ -5,10 +5,8 @@
 
 ## 🆕 What's New
 
-### ***ver4.1.1***
-- Fixed Generate Upon Receiving A New Message for Livestream triggering upon switching chats and starting new ones.
-- Fixed OpenAI/Ollama URL and model settings not being saved.
-- You can now edit timeframes from Livestream mode.
+### ***ver4.1.2***
+- Fixed the bug that prevented you from generating the chat feed if the last message in the chat was the user's.
 
 ![Version](https://img.shields.io/badge/SillyTavern-v1.12%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)

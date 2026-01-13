@@ -365,13 +365,6 @@
         const chat = context.chat;
         if (!chat || chat.length === 0) return;
 
-        const lastMessage = chat[chat.length - 1];
-
-        if (lastMessage.is_user) {
-            setStatus('<span style="color:var(--ec-accent);"><i class="fa-solid fa-keyboard fa-fade"></i> AI is typing...</span>');
-            return;
-        }
-
         // Create new AbortController BEFORE setting up the Cancel button
         userCancelled = false;
         abortController = new AbortController();
