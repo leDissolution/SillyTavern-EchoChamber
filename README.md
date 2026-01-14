@@ -5,6 +5,10 @@
 
 ## 🆕 What's New
 
+### ***ver4.1.3***
+- Updated the generation logic for Connection Profile, Ollama, and OpenAI-Compatible sources to use your global Max Response Length setting in SillyTavern.
+- Added an optional API Key field to the "OpenAI Compatible" settings section.
+
 ### ***ver4.1.2***
 - Fixed the bug that prevented you from generating the chat feed if the last message in the chat was the user's.
 
