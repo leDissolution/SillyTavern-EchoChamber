@@ -5,6 +5,9 @@
 
 ## 🆕 What's New
 
+### ***ver4.1.4***
+- Increased max token limit calculations by user counts to prevent cut-offs.
+
 ### ***ver4.1.3***
 - Updated the generation logic for Connection Profile, Ollama, and OpenAI-Compatible sources to use your global Max Response Length setting in SillyTavern.
 - Added an optional API Key field to the "OpenAI Compatible" settings section.
