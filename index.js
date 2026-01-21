@@ -350,6 +350,35 @@
         log('Saved generated commentary to metadata');
     }
 
+    function getActiveCharacters(includeDisabled = false) {
+        const ctx = SillyTavern.getContext();
+
+        // Single chat mode
+        const characterId = ctx.characterId;
+        const characterIndex = characterId == null ? NaN : Number.parseInt(characterId, 10);
+        if (Number.isInteger(characterIndex) && characterIndex >= 0 && Array.isArray(ctx.characters) && characterIndex < ctx.characters.length) {
+            return [ctx.characters[characterIndex]];
+        }
+
+        // Group chat mode 
+        if (ctx.groupId !== null && ctx.groupId !== undefined) {
+            const group = ctx.groups.find(g => String(g.id) === String(ctx.groupId));
+            if (!group?.members?.length) return [];
+
+            const disabled = (group.disabled_members ?? group.disabledMembers ?? []).map(String);
+            const memberKeys = includeDisabled ? group.members : group.members.filter(m => !disabled.includes(String(m)));
+
+            // Group chats are weird. Members are avatar keys, so resolve via character.avatar
+            const chars = memberKeys
+                .map((avatarKey) => ctx.characters.find(c => String(c.avatar) === String(avatarKey)))
+                .filter((c) => c !== undefined);
+
+            return chars;
+        }
+
+        return [];
+    }
+
     // ============================================================
     // GENERATION
     // ============================================================
@@ -543,7 +572,26 @@
             }
         }
 
-        const truePrompt = `<story_context>
+        let characterDescriptions = '';
+        if (settings.includePersona) {
+            // Persona description could come from context.powerUserSettings.persona_description, but not the name, so have to use variable
+            const name = context.substituteParams("{{user}}");
+            const description = context.substituteParams("{{persona}}");
+            characterDescriptions += `<${name}>${description}</${name}>\n`;
+        }
+
+        if (settings.includeCharacterDescription) {
+            let activeChars = getActiveCharacters();
+            activeChars.forEach(char => {
+                characterDescriptions += `<${char.name}>${char.description}</${char.name}>\n`;
+            });
+        }
+
+        if (characterDescriptions !== '') {
+            characterDescriptions = `<character_descriptions>\n${characterDescriptions}</character_descriptions>\n\n`;
+        }
+
+        const truePrompt = `${characterDescriptions}<story_context>
 ${history}
 </story_context>
 
@@ -858,6 +906,8 @@ STRICTLY follow the format defined in the instruction. ${isNarratorStyle ? '' : 
         jQuery('#discord_include_user').prop('checked', settings.includeUserInput);
         jQuery('#discord_context_depth').val(settings.contextDepth || 4);
         jQuery('#discord_include_past_echo').prop('checked', settings.includePastEchoChambers || false);
+        jQuery('#discord_include_persona').prop('checked', settings.includePersona || false);
+        jQuery('#discord_include_character_description').prop('checked', settings.includeCharacterDescription || false);
 
         // Livestream settings
         jQuery('#discord_livestream').prop('checked', settings.livestream || false);
@@ -2157,6 +2207,20 @@ username: message
             settings.includePastEchoChambers = jQuery(this).prop('checked');
             saveSettings();
             log('Include past EchoChambers:', settings.includePastEchoChambers);
+        });
+        
+        // Include Persona toggle
+        jQuery('#discord_include_persona').on('change', function () {
+            settings.includePersona = jQuery(this).prop('checked');
+            saveSettings();
+            log('Include persona:', settings.includePersona);
+        });
+
+        // Include Character Description toggle
+        jQuery('#discord_include_character_description').on('change', function () {
+            settings.includeCharacterDescription = jQuery(this).prop('checked');
+            saveSettings();
+            log('Include character description:', settings.includeCharacterDescription);
         });
 
         // Livestream toggle
